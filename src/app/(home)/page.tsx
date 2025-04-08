@@ -21,10 +21,9 @@ export default function Home() {
 
   const loadSongs = useCallback(async (page: number, sort_dir?: string) => {
     try {
-      const response = await getSongs(6, 5, 1, sort_dir); 
+      const response = await getSongs(6, 5, page, sort_dir); 
       if(response) {
         setSongs(response.data);
-        setSongsPage(Number(response.page)); 
         setSongsTotalPages(Math.ceil(response.total / response.per_page));
       }
     } catch (err) {
@@ -36,6 +35,10 @@ export default function Home() {
     loadTopSongs();
     loadSongs(songsPage);
   }, [loadTopSongs, loadSongs]);
+
+  useEffect(() => {
+    loadSongs(songsPage);
+  }, [songsPage]);
 
   return (
     <>
