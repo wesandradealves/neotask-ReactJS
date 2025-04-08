@@ -7,20 +7,26 @@ import SongList from "@/components/SongsList/SongsList";
 export default function Home() {
   const [topSongs, setTopSongs] = useState<Song[]>([]);
   const [songs, setSongs] = useState<Song[]>([]);
+  const [songsPage, setSongsPage] = useState(1);
+  const [songsTotalPages, setSongsTotalPages] = useState(0);
 
   const loadTopSongs = useCallback(async () => {
     try {
-      const songs = await getTopSongs();
-      setTopSongs(songs);
+      const response = await getTopSongs(); 
+      setTopSongs(response);
     } catch (err) {
       console.error("Erro ao buscar top músicas:", err);
     }
   }, []);
 
-  const loadSongs = useCallback(async () => {
+  const loadSongs = useCallback(async (page: number, sort_dir?: string) => {
     try {
-      const songs = await getSongs(6, 5);
-      setSongs(songs.data);
+      const response = await getSongs(6, 5, 1, sort_dir); 
+      if(response) {
+        setSongs(response.data);
+        setSongsPage(Number(response.page)); 
+        setSongsTotalPages(Math.ceil(response.total / response.per_page));
+      }
     } catch (err) {
       console.error("Erro ao buscar músicas:", err);
     }
@@ -28,14 +34,25 @@ export default function Home() {
 
   useEffect(() => {
     loadTopSongs();
-    loadSongs();
+    loadSongs(songsPage);
   }, [loadTopSongs, loadSongs]);
 
   return (
     <>
       <Suggest title={"Sugerir nova música"} />
-      <SongList title="Top 5" songs={topSongs.map(song => ({ ...song, id: song.id.toString() }))} />
-      <SongList title="Músicas Recentes" songs={songs.map(song => ({ ...song, id: song.id.toString() }))} />
+      <SongList
+        title="Top 5"
+        songs={topSongs}
+      />
+      <SongList
+        title="Músicas Recentes"
+        songs={songs}
+        pagination={{
+          currentPage: songsPage,
+          totalPages: songsTotalPages,
+          onPageChange: setSongsPage,
+        }}
+      />
     </>
   );
 }

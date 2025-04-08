@@ -11,6 +11,9 @@ export interface Song {
 }
 
 interface SongResponse {
+  page(page: any): unknown;
+  map(arg0: (song: any) => { id: any; title: any; youtube_link: any; plays: any; }): Song[];
+  songs: never[];
   data: Song[];
   total: number;
   per_page: number;
@@ -28,11 +31,13 @@ export const getTopSongs = async (): Promise<Song[]> => {
 };
 
 // Nova função para buscar músicas com offset e paginação
-export const getSongs = async (offset: number = 0, perPage: number = 10): Promise<SongResponse> => {
+export const getSongs = async (offset: number = 0, perPage: number = 10, page: number = 1, sort_dir: string = 'asc'): Promise<SongResponse> => {
   try {
     const response = await api.get<SongResponse>('/songs', {
       params: {
+        sort_dir: sort_dir,
         offset,
+        page: page,
         per_page: perPage,
       },
     });
