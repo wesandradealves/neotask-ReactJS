@@ -11,9 +11,9 @@ export interface Song {
 }
 
 interface SongResponse {
-  page(page: any): unknown;
-  map(arg0: (song: any) => { id: any; title: any; youtube_link: any; plays: any; }): Song[];
-  songs: never[];
+  page: (page: number) => unknown;
+  map: (callback: (song: Song) => Song) => Song[];
+  songs: Song[];
   data: Song[];
   total: number;
   per_page: number;

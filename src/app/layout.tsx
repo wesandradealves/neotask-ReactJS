@@ -39,7 +39,7 @@ export default function RootLayout({
           [&::-webkit-scrollbar-track]:ms-7
           [&::-webkit-scrollbar-track]:me-7
           [&::-webkit-scrollbar-track]:rounded-full
-          [&::-webkit-scrollbar-thumb]:bg-yellow-500
+          [&::-webkit-scrollbar-thumb]:bg-red-600
           [&::-webkit-scrollbar-thumb]:rounded-full
           [&::-webkit-scrollbar-thumb]:cursor-move
           `
