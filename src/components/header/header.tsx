@@ -53,8 +53,8 @@ const Header = () => {
   
       const result = await signIn('LaravelCredentials', {
         redirect: false,
-        email: 'test@example.com',
-        password: 'Wes@03122530',
+        email: process.env.NEXT_PUBLIC_API_USR,
+        password: process.env.NEXT_PUBLIC_API_USR_PWD,
       });
   
       if (result?.ok) {
