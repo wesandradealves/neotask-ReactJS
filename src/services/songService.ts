@@ -23,14 +23,13 @@ interface SongResponse {
 export const getTopSongs = async (): Promise<Song[]> => {
   try {
     const response = await api.get<SongResponse>('/songs/top');
-    return response.data.data; // <-- aqui acessa o array corretamente
+    return response.data.data; 
   } catch (error: unknown) {
     console.error('Top Songs Error:', error);
     throw error;
   }
 };
 
-// Nova função para buscar músicas com offset e paginação
 export const getSongs = async (offset: number = 0, perPage: number = 10, page: number = 1, sort_dir: string = 'asc'): Promise<SongResponse> => {
   try {
     const response = await api.get<SongResponse>('/songs', {
@@ -41,7 +40,7 @@ export const getSongs = async (offset: number = 0, perPage: number = 10, page: n
         per_page: perPage,
       },
     });
-    return response.data; // Retorna a resposta completa com dados, total, etc.
+    return response.data; 
   } catch (error: unknown) {
     console.error('Get Songs Error:', error);
     throw error;
