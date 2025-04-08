@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import api from './api';
-import Cookies from 'js-cookie';
 
 export interface LoginPayload {
   email: string;
@@ -15,42 +14,6 @@ export interface LoginResponse {
   };
   token: string;
 }
-
-export const Login = async (
-  email: string,
-  password: string
-): Promise<LoginResponse> => {
-  try {
-    await api.get(`${process.env.NEXT_PUBLIC_API_URL}/sanctum/csrf-cookie`, {
-      withCredentials: true,
-    });
-    
-    const csrfToken = Cookies.get('XSRF-TOKEN');
-    if (csrfToken) {
-      sessionStorage.setItem('csrf-token', decodeURIComponent(csrfToken));
-    } else {
-      console.warn('CSRF token não encontrado nos cookies.');
-    }
-    
-    const response = await api.post<LoginResponse>(
-      '/login',
-      { email, password },
-      {
-        withCredentials: true,
-      }
-    );
-
-    sessionStorage.setItem('token', response.data.token);
-
-    return response.data;
-  } catch (error: unknown) {
-    console.error('Login Error:', error);
-
-    const message =
-      (error as any)?.response?.data?.message || 'Erro ao fazer login.';
-    throw new Error(message);
-  }
-};
 
 export const Logout = async (): Promise<void> => {
   try {
