@@ -1,5 +1,4 @@
 'use client';
-import Script from 'next/script';
 import {
   _colors,
   _breakpoints,
@@ -12,10 +11,10 @@ import { App, GlobalStyle } from '@/app/style';
 import '@/assets/scss/globals.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { AnimatePresence, motion, useScroll } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { ThemeProvider } from 'styled-components';
 import StyledJsxRegistry from './registry';
-import { Suspense, useRef, useState, useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import classNames from 'classnames';
 import { AuthProvider } from '@/context/auth';
 import { LoaderProvider, useLoader } from '@/context/spinner';
@@ -28,19 +27,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const scrollRef = useRef<HTMLHtmlElement | null>(null);
-  const { scrollY } = useScroll({
-    container: scrollRef,
-  });
-
-  const [scrollPosition, setScrollPosition] = useState<number>(0);
-
-  scrollY.onChange((n) => {
-    setScrollPosition(n);
-  });
-
   return (
-    <html lang="pt-br" ref={scrollRef}>
+    <html lang="pt-br">
       <body
         suppressHydrationWarning={true}
         className={classNames(

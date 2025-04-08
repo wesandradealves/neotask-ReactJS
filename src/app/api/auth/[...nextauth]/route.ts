@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import type { NextAuthOptions } from 'next-auth';
@@ -53,7 +55,7 @@ const authOptions: NextAuthOptions = {
     strategy: 'jwt',
   },
   callbacks: {
-    async redirect({ url, baseUrl }) {
+    async redirect({ baseUrl }) {
       return baseUrl; // evita redirecionar automaticamente
     },
     async jwt({ token, user }) {

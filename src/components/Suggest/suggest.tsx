@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 import { Button, Container } from "./styles";
 import { Title } from "@/app/(home)/style";
@@ -30,10 +32,10 @@ export default function Suggest({ title }: { title: string }) {
         return;
       }
 
-      const result = await sendSuggestion(
-        { youtube_link: data.youtube_link },
-        session.accessToken!
-      );
+      const result = await sendSuggestion({
+        youtube_link: data.youtube_link,
+        accessToken: session.accessToken!,
+      });
 
       if ('error' in result) {
         setError(result.error);
@@ -48,7 +50,7 @@ export default function Suggest({ title }: { title: string }) {
     } finally {
       setLoading(false); // Corrigido: agora o bloco finally está correto
     }
-  }, [session?.accessToken, session, reset]);
+  }, [session, reset]);
 
   return (
     <Container id="suggest">
